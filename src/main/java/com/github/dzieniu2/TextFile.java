@@ -13,10 +13,11 @@ public class TextFile {
 
     public double getNameMatch(File patternFile){
 
-        CustomString patternName = new CustomString(patternFile.getName().substring(0, patternFile.getName().length() - 4));
-        CustomString targetName = new CustomString(filename.substring(0, filename.length() - 4));
-        if (KnuthMorrisPratt.KMP_alg(targetName.getString(), patternName.getString()) != null) {
-            return 1.0;
+        CustomString patternName = new CustomString(patternFile.getName().substring(0, patternFile.getName().lastIndexOf('.')));
+        CustomString targetName = new CustomString(filename.substring(0, filename.lastIndexOf('.')));
+        if (patternName.getString().matches(targetName.getString())) {
+            System.out.println(patternFile.getName()+", "+filename+" = 1");
+            return 1.1;
         } else {
             CustomString lessWords = new CustomString(patternName.hasLessWords(targetName.getString()));
             CustomString moreWords = new CustomString(targetName.hasMoreWords(patternName.getString()));
@@ -26,6 +27,7 @@ public class TextFile {
                     counter = counter + 1.0;
                 }
             }
+            System.out.println(patternFile.getName()+", "+filename+" = "+counter/moreWords.countWords());
             return counter / moreWords.countWords();
         }
     }

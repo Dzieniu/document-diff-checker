@@ -29,20 +29,9 @@ public class Controller {
             labelPattern.setText("  Pattern: "+selectedFile.getName());
             listViewPattern.getItems().clear();
 
-            ArrayList<String> arrayList = new ArrayList<>();
+            ArrayList<String> arrayList;
             CustomFileReader customFileReader = new CustomFileReader();
-
-            switch (getFileExtension(selectedFile.getName())) {
-                case "txt":
-                    arrayList = customFileReader.readTxtLines(selectedFile);
-                    break;
-                case "doc":
-                    arrayList = customFileReader.readDocLines(selectedFile);
-                    break;
-                case "docx":
-                    arrayList = customFileReader.readDocxLines(selectedFile);
-                    break;
-            }
+            arrayList = customFileReader.readLines(selectedFile);
 
             for (int i = 0; i < arrayList.size(); i++) {
                 listViewPattern.getItems().add(arrayList.get(i));
@@ -59,7 +48,7 @@ public class Controller {
 
             filesList = new ArrayList<>();
             for (int i = 0; i < filenameList.length; i++) {
-                filesList.add(new TextFile(filenameList[i]));
+                filesList.add(new TextFile(filenameList[i],selectedDirectory.getAbsolutePath()+"\\"+filenameList[i]));
             }
             labelSelectedDirectory.setText("  Selected directory: " + selectedDirectory.getAbsolutePath());
             refreshFilesList();
@@ -91,16 +80,6 @@ public class Controller {
         return true;
     }
 
-    private String getFileExtension(String string){
-
-        String extension = "";
-        int j = string.lastIndexOf('.');
-        if (j > 0) {
-            extension = string.substring(j+1);
-        }
-        return extension;
-    }
-
     private void refreshFilesList() {
 
         listViewFilesList.getItems().clear();
@@ -116,18 +95,9 @@ public class Controller {
                         labelSelectedFile.setText("  Selected file: ".concat(filesList.get(tmp).getFilename()));
 
                         try{
-                            ArrayList<String> arrayList = new ArrayList<>();
+                            ArrayList<String> arrayList;
                             CustomFileReader customFileReader = new CustomFileReader();
-
-                            File file = filesList.get(tmp).getFile(selectedDirectory.getAbsolutePath());
-                            switch(getFileExtension(filesList.get(tmp).getFilename())){
-                                case "txt": arrayList = customFileReader.readTxtLines(file);
-                                    break;
-                                case "doc": arrayList = customFileReader.readDocLines(file);
-                                    break;
-                                case "docx":  arrayList = customFileReader.readDocxLines(file);
-                                    break;
-                            }
+                            arrayList = customFileReader.readLines(filesList.get(tmp).getFile());
 
                             for(int i=0;i<arrayList.size();i++){
                                 listViewChosenFile.getItems().add(arrayList.get(i));

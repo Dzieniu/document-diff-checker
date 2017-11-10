@@ -5,10 +5,11 @@ import java.io.IOException;
 
 public class TextFile {
 
-    private String filename;
+    private String filename,filepath;
 
-    public TextFile(String filename) throws IOException{
+    public TextFile(String filename, String filepath) throws IOException{
         this.filename = filename;
+        this.filepath = filepath;
     }
 
     public double getNameMatch(File patternFile){
@@ -30,10 +31,9 @@ public class TextFile {
         }
     }
 
-    public File getFile(String directoryPath){
+    public File getFile(){
 
-        File file = new File(directoryPath+"\\"+filename);
-        return file;
+        return new File(filepath);
     }
 
     public String getFilename() {

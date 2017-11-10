@@ -14,7 +14,7 @@ public class CustomFileReader {
 
     public CustomFileReader(){}
 
-    public String readDoc(File selectedFile) throws IOException{
+    public String readDocContent(File selectedFile) throws IOException{
 
         FileInputStream fis = new FileInputStream(selectedFile);
         HWPFDocument document = new HWPFDocument(fis);
@@ -38,7 +38,7 @@ public class CustomFileReader {
         return arrayList;
     }
 
-    public String readDocx(File selectedFile) throws IOException{
+    public String readDocxContent(File selectedFile) throws IOException{
 
         FileInputStream fis = new FileInputStream(selectedFile);
         XWPFDocument document = new XWPFDocument(fis);
@@ -61,7 +61,7 @@ public class CustomFileReader {
         return arrayList;
     }
 
-    public String readTxt(File selectedFile) throws IOException{
+    public String readTxtContent(File selectedFile) throws IOException{
 
         BufferedReader reader  = new BufferedReader(new InputStreamReader(new FileInputStream(selectedFile),"UTF-8"));
 
@@ -87,5 +87,50 @@ public class CustomFileReader {
         reader.close();
 
         return arrayList;
+    }
+
+    public String readContent(File selectedFile) throws IOException{
+
+        String content = "";
+        switch (getFileExtension(selectedFile.getName())) {
+            case "txt":
+                content = readTxtContent(selectedFile);
+                break;
+            case "doc":
+                content = readDocContent(selectedFile);
+                break;
+            case "docx":
+                content = readDocxContent(selectedFile);
+                break;
+        }
+
+        return content;
+    }
+
+    public ArrayList<String> readLines(File selectedFile) throws IOException{
+
+        ArrayList<String> arrayList = new ArrayList<>();
+        switch (getFileExtension(selectedFile.getName())) {
+            case "txt":
+                arrayList = readTxtLines(selectedFile);
+                break;
+            case "doc":
+                arrayList = readDocLines(selectedFile);
+                break;
+            case "docx":
+                arrayList = readDocxLines(selectedFile);
+                break;
+        }
+        return arrayList;
+    }
+
+    private String getFileExtension(String string){
+
+        String extension = "";
+        int j = string.lastIndexOf('.');
+        if (j > 0) {
+            extension = string.substring(j+1);
+        }
+        return extension;
     }
 }

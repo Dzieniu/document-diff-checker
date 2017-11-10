@@ -13,10 +13,9 @@ public class TextFile {
 
     public double getNameMatch(File patternFile){
 
-        CustomString patternName = new CustomString(patternFile.getName().substring(0, patternFile.getName().lastIndexOf('.')));
-        CustomString targetName = new CustomString(filename.substring(0, filename.lastIndexOf('.')));
+        CustomString patternName = new CustomString(patternFile.getName().substring(0, patternFile.getName().lastIndexOf('.')).toLowerCase());
+        CustomString targetName = new CustomString(filename.substring(0, filename.lastIndexOf('.')).toLowerCase());
         if (patternName.getString().matches(targetName.getString())) {
-            System.out.println(patternFile.getName()+", "+filename+" = 1");
             return 1.1;
         } else {
             CustomString lessWords = new CustomString(patternName.hasLessWords(targetName.getString()));
@@ -27,7 +26,6 @@ public class TextFile {
                     counter = counter + 1.0;
                 }
             }
-            System.out.println(patternFile.getName()+", "+filename+" = "+counter/moreWords.countWords());
             return counter / moreWords.countWords();
         }
     }

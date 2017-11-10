@@ -47,7 +47,6 @@ public class Controller {
             for (int i = 0; i < arrayList.size(); i++) {
                 listViewPattern.getItems().add(arrayList.get(i));
             }
-            System.out.println(selectedFile.getName());
         }
     }
 

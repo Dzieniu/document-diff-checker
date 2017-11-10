@@ -1,0 +1,55 @@
+<?fxml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<BorderPane prefHeight="868.0" prefWidth="1596.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.dzieniu2.Controller">
+   <top>
+       <MenuBar>
+           <menus>
+               <Menu mnemonicParsing="false" text="File">
+                   <items>
+                       <MenuItem mnemonicParsing="false" onAction="#chooseFile" text="Choose file" />
+                       <MenuItem mnemonicParsing="false" onAction="#chooseDirectory" text="Choose directory" />
+                   </items>
+               </Menu>
+               <Menu mnemonicParsing="false" text="Compare">
+                   <items>
+                       <MenuItem mnemonicParsing="false" onAction="#sortByFilenameMatch" text="Sort by names" />
+                   </items>
+               </Menu>
+           </menus>
+       </MenuBar>
+   </top>
+    <left>
+        <VBox prefWidth="350">
+            <Label fx:id="labelSelectedDirectory" prefWidth="Infinity" style="-fx-background-color: #d0d0d0;" text="  Selected directory" textFill="#655959">
+                <font>
+                    <Font size="17.0" />
+                </font>
+            </Label>
+            <ListView fx:id="listViewFilesList" prefHeight="1000" />
+        </VBox>
+    </left>
+   <center>
+       <VBox>
+           <Label fx:id="labelSelectedFile" prefWidth="Infinity" style="-fx-background-color: #bfb9b9;" text="  Selected file" textFill="#655959">
+            <font>
+               <Font size="17.0" />
+            </font>
+           </Label>
+           <ListView fx:id="listViewChosenFile" prefHeight="1000.0" />
+       </VBox>
+   </center>
+    <right>
+        <VBox prefWidth="600">
+            <Label fx:id="labelPattern" prefWidth="Infinity" style="-fx-background-color: #d0d0d0;" text="  Pattern" textFill="#655959">
+                <font>
+                    <Font size="17.0" />
+                </font>
+            </Label>
+            <ListView fx:id="listViewPattern" prefHeight="1000.0" />
+        </VBox>
+    </right>
+</BorderPane>

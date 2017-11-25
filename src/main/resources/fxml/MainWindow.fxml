@@ -17,6 +17,7 @@
                <Menu mnemonicParsing="false" text="Compare">
                    <items>
                        <MenuItem mnemonicParsing="false" onAction="#sortByFilenameMatch" text="Sort by names" />
+                       <MenuItem mnemonicParsing="false" onAction="#lineComparison" text="Line comparison"/>
                    </items>
                </Menu>
            </menus>

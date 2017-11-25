@@ -1,22 +1,27 @@
 package com.github.dzieniu2;
 
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Callback;
+import org.apache.poi.util.StringUtil;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class Controller {
 
     @FXML private Label labelSelectedFile,labelPattern,labelSelectedDirectory;
     @FXML private ListView listViewFilesList,listViewChosenFile,listViewPattern;
 
-    private static File selectedFile,selectedDirectory;
+    private static File selectedFile,selectedDirectory,patternFile;
     private static String[]filenameList;
     private static ArrayList<TextFile> filesList;
 
@@ -29,17 +34,17 @@ public class Controller {
             labelPattern.setText("  Pattern: "+selectedFile.getName());
             listViewPattern.getItems().clear();
 
-            ArrayList<String> arrayList;
+            ArrayList<CustomString> arrayList;
             CustomFileReader customFileReader = new CustomFileReader();
-            arrayList = customFileReader.readLines(selectedFile);
+            arrayList = customFileReader.readCustomString(selectedFile);
 
             for (int i = 0; i < arrayList.size(); i++) {
-                listViewPattern.getItems().add(arrayList.get(i));
+                listViewPattern.getItems().add(arrayList.get(i).getString());
             }
         }
     }
 
-    @FXML private void chooseDirectory() throws Exception{
+    @FXML private void chooseDirectory() throws Exception {
 
         CustomDirectoryChooser chooser = new CustomDirectoryChooser();
         if(chooser.selectDirectory()!=null) {
@@ -70,6 +75,39 @@ public class Controller {
         }
     }
 
+    @FXML private void lineComparison() {
+        LineComparison lineComparison = new LineComparison();
+        List<CustomString> csList = lineComparison.compare(patternFile, selectedFile);
+        listViewChosenFile.getCellFactory();
+        System.out.println(listViewChosenFile.getItems() + "@@s");
+        ObservableList<CustomString> eL = listViewChosenFile.getItems();
+        for (int i = 0; i < eL.size(); i++) {
+            System.out.println(eL.get(i).getString());
+        }
+
+
+        listViewPattern.setCellFactory(new Callback<ListView<CustomString>, ListCell<CustomString>>(){
+           @Override
+           public ListCell<CustomString> call(ListView<CustomString> param) {
+               return new ListCell<CustomString>() {
+                    @Override
+                   protected void updateItem(CustomString item, boolean empty) {
+                       super.updateItem(item, empty);
+
+                        if (!empty) {
+                            setText(item.getString());
+                            if (item.isEqual()) {
+                                setStyle("-fx-control-inner-background: green;");
+                            } else {
+                                setStyle("-fx-control-inner-background: red;");
+                            }
+                        }
+                   }
+               };
+           }
+        });
+    }
+
     private boolean areChosen(){
 
         if(selectedFile==null){
@@ -95,12 +133,13 @@ public class Controller {
                         labelSelectedFile.setText("  Selected file: ".concat(filesList.get(tmp).getFilename()));
 
                         try{
-                            ArrayList<String> arrayList;
+                            ArrayList<CustomString> arrayList;
                             CustomFileReader customFileReader = new CustomFileReader();
-                            arrayList = customFileReader.readLines(filesList.get(tmp).getFile());
+                            arrayList = customFileReader.readCustomString(filesList.get(tmp).getFile());
+                            patternFile = filesList.get(tmp).getFile();
 
                             for(int i=0;i<arrayList.size();i++){
-                                listViewChosenFile.getItems().add(arrayList.get(i));
+                                listViewChosenFile.getItems().add(arrayList.get(i).getString());
                             }
 
                         }catch (IOException e){}

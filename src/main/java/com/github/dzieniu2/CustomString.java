@@ -4,11 +4,13 @@ public class CustomString {
 
     private String string;
     private int flag;
+    private boolean isEqual;
 
     public CustomString(String string){
 
         this.string = string;
         flag = 0;
+        isEqual = false;
     }
 
     public int countWords(){
@@ -117,5 +119,13 @@ public class CustomString {
 
     public int getFlag() {
         return flag;
+    }
+
+    public boolean isEqual() {
+        return isEqual;
+    }
+
+    public void setIsEqual(boolean tof) {
+        isEqual = tof;
     }
 }

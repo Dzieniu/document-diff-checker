@@ -89,6 +89,19 @@ public class CustomFileReader {
         return arrayList;
     }
 
+    public ArrayList<CustomString> readCustomString(File selectedFile) throws IOException {
+        BufferedReader reader  = new BufferedReader(new InputStreamReader(new FileInputStream(selectedFile),"UTF-8"));
+
+        String line = "";
+        ArrayList<CustomString> arrayList= new ArrayList<>();
+        while((line = reader.readLine())!=null){
+            arrayList.add(new CustomString(line));
+        }
+        reader.close();
+
+        return arrayList;
+    }
+
     public String readContent(File selectedFile) throws IOException{
 
         String content = "";

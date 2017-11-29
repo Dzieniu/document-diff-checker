@@ -128,4 +128,13 @@ public class CustomString {
     public void setIsEqual(boolean tof) {
         isEqual = tof;
     }
+
+    @Override
+    public String toString() {
+        return "CustomString{" +
+                "string='" + string + '\'' +
+                ", flag=" + flag +
+                ", isEqual=" + isEqual +
+                '}';
+    }
 }

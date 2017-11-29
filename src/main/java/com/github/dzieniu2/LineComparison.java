@@ -3,44 +3,43 @@ package com.github.dzieniu2;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LineComparison {
 
-    public List<CustomString> compare(File pattern, File file) {
-        CustomFileReader fileReader = new CustomFileReader();
-        List<CustomString> linesPattern = new ArrayList<>();
-        List<CustomString> linesFile = new ArrayList<>();
+    public void compare(List<CustomString> patternLines, List<CustomString> selectedLines) {
+        
+        boolean isEqual;
 
-        try {
-            linesPattern = fileReader.readCustomString(pattern);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            linesFile = fileReader.readCustomString(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        for (int i = 0; i < linesPattern.size(); i++) {
-            if (linesFile.get(i).getString().length() > linesPattern.get(i).getString().length()) {
-                System.out.println(KnuthMorrisPratt.KMP_alg(linesPattern.get(i).getString(), linesFile.get(i).getString()));
-                System.out.println(KnuthMorrisPratt.KMP_alg(linesPattern.get(i).getString(), linesFile.get(i).getString()) == null ? "false" : true);
-                linesFile.get(i).setIsEqual(KnuthMorrisPratt.KMP_alg(linesPattern.get(i).getString(), linesFile.get(i).getString()) == null ? false : true);
-                linesPattern.get(i).setIsEqual(KnuthMorrisPratt.KMP_alg(linesPattern.get(i).getString(), linesFile.get(i).getString()) == null ? false : true);
+        if (patternLines.size() > selectedLines.size()) {
+            List<CustomString> newLines = new ArrayList<>(patternLines.size());
+            for (int i = 0; i < patternLines.size(); i++) {
+                if (i < selectedLines.size())
+                    newLines.add(selectedLines.get(i));
+                else
+                    newLines.add(new CustomString("hyhyhy"));
             }
+            selectedLines = newLines;
 
-            else {
-                System.out.println(KnuthMorrisPratt.KMP_alg(linesFile.get(i).getString(), linesPattern.get(i).getString()));
-                System.out.println(KnuthMorrisPratt.KMP_alg(linesPattern.get(i).getString(), linesFile.get(i).getString()) == null ? "false" : true);
-                linesFile.get(i).setIsEqual(KnuthMorrisPratt.KMP_alg(linesPattern.get(i).getString(), linesFile.get(i).getString()) == null ? false : true);
-                linesPattern.get(i).setIsEqual(KnuthMorrisPratt.KMP_alg(linesPattern.get(i).getString(), linesFile.get(i).getString()) == null ? false : true);
-            }
-
+            for (int i = 0; i < newLines.size(); i++)
+                selectedLines.set(i, newLines.get(i));
         }
-        return linesPattern;
+
+        for (int i = 0; i < patternLines.size(); i++) {
+            if (isLonger(selectedLines.get(i), patternLines.get(i))) {
+                isEqual = KnuthMorrisPratt.KMP_alg(patternLines.get(i).getString(), selectedLines.get(i).getString()) == null ? false : true;
+                selectedLines.get(i).setIsEqual(isEqual);
+                patternLines.get(i).setIsEqual(isEqual);
+            } else {
+                isEqual = KnuthMorrisPratt.KMP_alg(selectedLines.get(i).getString(), patternLines.get(i).getString()) == null ? false : true;
+                selectedLines.get(i).setIsEqual(isEqual);
+                patternLines.get(i).setIsEqual(isEqual);
+            }
+        }
     }
-
+    
+    private boolean isLonger(CustomString str1, CustomString str2) {
+        return str1.getString().length() > str2.getString().length() ? true : false;
+    }
 }

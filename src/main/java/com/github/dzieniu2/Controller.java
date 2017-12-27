@@ -4,16 +4,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.apache.poi.util.StringUtil;
 
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -109,7 +115,29 @@ public class Controller {
         for (CustomString str : selectedFileLines)
             if (str.isEqual()) equalLines++;
 
-        System.out.println("Podobieństwo plików : " + (equalLines/(double)lines) * 100.0 + "%");
+        double result = (equalLines/(double)lines) * 100.0;
+        System.out.println("Podobieństwo plików : " + result  + "%");
+        DecimalFormat format = new DecimalFormat(".##");
+        showResultWindow(format.format(result).toString());
+    }
+
+    private void showResultWindow(String result) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource(
+                            "/fxml/ResultWindow.fxml"
+                    )
+            );
+            Stage stage = new Stage();
+            stage.setScene(new Scene((Pane) loader.load()));
+            ResultController resultController = loader.<ResultController>getController();
+            resultController.initData(result + "%");
+            stage.setTitle("Results");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 

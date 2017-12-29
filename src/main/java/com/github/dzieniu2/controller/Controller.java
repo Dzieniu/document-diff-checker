@@ -1,29 +1,22 @@
-package com.github.dzieniu2;
+package com.github.dzieniu2.controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.github.dzieniu2.other.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import org.apache.poi.util.StringUtil;
 
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 public class Controller {
 
@@ -97,7 +90,6 @@ public class Controller {
 
         ArrayList<SentencePair> sentencePairs = filesList.get(patternFileIndex).getSentenceMatch(selectedFile);
         String result = "";
-        result = result + "Corresponding results found: "+sentencePairs.size()+System.lineSeparator();
         if(sentencePairs.size()>0) {
             result = result + "Pattern:              Selected:"+System.lineSeparator();
             for (SentencePair pair : sentencePairs) {
@@ -107,7 +99,8 @@ public class Controller {
                         ", Index: "+pair.getSecondSentence().getBeginLine().getIndexNumber()+System.lineSeparator();
             }
         }
-        showResultWindow(result);
+        System.out.println(result);
+        showResultWindowSentence(sentencePairs.size(),result);
     }
 
     @FXML
@@ -151,6 +144,26 @@ public class Controller {
             stage.setScene(new Scene((Pane) loader.load()));
             ResultController resultController = loader.<ResultController>getController();
             resultController.initData(result);
+            stage.setTitle("Results");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void showResultWindowSentence(int numberFound, String result) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource(
+                            "/fxml/ResultWindowSentence.fxml"
+                    )
+            );
+            Stage stage = new Stage();
+            stage.setScene(new Scene((Pane) loader.load()));
+            ResultController resultController = loader.<ResultController>getController();
+            resultController.initDataSentence(numberFound, result);
             stage.setTitle("Results");
             stage.show();
         } catch (Exception e) {

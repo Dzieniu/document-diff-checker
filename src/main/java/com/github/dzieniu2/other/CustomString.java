@@ -1,4 +1,4 @@
-package com.github.dzieniu2;
+package com.github.dzieniu2.other;
 
 public class CustomString {
 

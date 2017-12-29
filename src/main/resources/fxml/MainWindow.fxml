@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<BorderPane prefHeight="868.0" prefWidth="1596.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.dzieniu2.Controller">
+<BorderPane prefHeight="868.0" prefWidth="1596.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.dzieniu2.controller.Controller">
    <top>
        <MenuBar>
            <menus>
@@ -18,6 +18,7 @@
                    <items>
                        <MenuItem mnemonicParsing="false" onAction="#sortByFilenameMatch" text="Sort by names" />
                        <MenuItem mnemonicParsing="false" onAction="#lineComparison" text="Line comparison"/>
+                       <MenuItem mnemonicParsing="false" onAction="#sentenceComparison" text="Sentence comparison"/>
                    </items>
                </Menu>
            </menus>

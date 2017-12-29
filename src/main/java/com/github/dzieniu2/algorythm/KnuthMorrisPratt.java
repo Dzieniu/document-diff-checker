@@ -1,4 +1,4 @@
-package com.github.dzieniu2;
+package com.github.dzieniu2.algorythm;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.github.dzieniu2;
+package com.github.dzieniu2.algorythm;
 
 public class BoyerMoore {
 
@@ -9,7 +9,6 @@ public class BoyerMoore {
 
     public BoyerMoore(){}
 
-    //prepare bad character shift table
     private static void pre_bad_character_shift(String pattern)
     {
         int m = pattern.length();
@@ -25,7 +24,6 @@ public class BoyerMoore {
         }
     }
 
-    //prepare suff table
     private static void pre_suff(String pattern)
     {
         int j;
@@ -40,7 +38,6 @@ public class BoyerMoore {
 
     }
 
-    //prepare good_suffix_shift table
     private static void pre_good_suffix_shift(String pattern)
     {
         int j = 0;
@@ -72,7 +69,6 @@ public class BoyerMoore {
         }
     }
 
-    //Boyer-Moore algorithm
     public static Integer BM_alg(String text, String pattern)
     {
         int i, j;

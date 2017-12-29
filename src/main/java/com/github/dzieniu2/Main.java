@@ -19,7 +19,7 @@ public class Main extends Application {
         Stage stage = new Stage();
         Scene scene = new Scene(parent);
         stage.setScene(scene);
-        stage.setTitle("Plagiarism Checker");
+        stage.setTitle("Difference checker");
         stage.show();
     }
 }

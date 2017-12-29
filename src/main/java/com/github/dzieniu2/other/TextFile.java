@@ -1,4 +1,6 @@
-package com.github.dzieniu2;
+package com.github.dzieniu2.other;
+
+import com.github.dzieniu2.algorythm.KnuthMorrisPratt;
 
 import java.io.File;
 import java.io.IOException;

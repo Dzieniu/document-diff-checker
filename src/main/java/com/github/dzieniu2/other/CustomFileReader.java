@@ -1,4 +1,4 @@
-package com.github.dzieniu2;
+package com.github.dzieniu2.other;
 
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
@@ -90,14 +90,11 @@ public class CustomFileReader {
     }
 
     public ArrayList<CustomString> readCustomString(File selectedFile) throws IOException {
-        BufferedReader reader  = new BufferedReader(new InputStreamReader(new FileInputStream(selectedFile),"UTF-8"));
 
-        String line = "";
         ArrayList<CustomString> arrayList= new ArrayList<>();
-        while((line = reader.readLine())!=null){
+        for(String line : readLines(selectedFile)){
             arrayList.add(new CustomString(line));
         }
-        reader.close();
 
         return arrayList;
     }

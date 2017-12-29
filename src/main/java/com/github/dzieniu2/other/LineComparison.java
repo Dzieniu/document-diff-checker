@@ -1,9 +1,8 @@
-package com.github.dzieniu2;
+package com.github.dzieniu2.other;
 
-import java.io.File;
-import java.io.IOException;
+import com.github.dzieniu2.algorythm.KnuthMorrisPratt;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class LineComparison {

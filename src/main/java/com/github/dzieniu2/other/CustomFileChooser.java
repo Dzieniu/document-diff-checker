@@ -1,4 +1,4 @@
-package com.github.dzieniu2;
+package com.github.dzieniu2.other;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;

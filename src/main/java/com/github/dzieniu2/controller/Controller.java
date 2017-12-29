@@ -33,6 +33,7 @@ public class Controller {
     private ListView listViewFilesList, listViewChosenFile, listViewPattern;
 
     private static File selectedFile, selectedDirectory, patternFile;
+    private static int patternFileIndex;
     private static String[] filenameList;
     private static ArrayList<TextFile> filesList;
     private static ArrayList<CustomString> selectedFileLines, patternFileLines;
@@ -92,6 +93,24 @@ public class Controller {
     }
 
     @FXML
+    private void sentenceComparison() throws IOException {
+
+        ArrayList<SentencePair> sentencePairs = filesList.get(patternFileIndex).getSentenceMatch(selectedFile);
+        String result = "";
+        result = result + "Corresponding results found: "+sentencePairs.size()+System.lineSeparator();
+        if(sentencePairs.size()>0) {
+            result = result + "Pattern:              Selected:"+System.lineSeparator();
+            for (SentencePair pair : sentencePairs) {
+                result = result + "Line: "+pair.getFirstSentence().getBeginLine().getLineNumber()+
+                        ", Index: "+pair.getFirstSentence().getBeginLine().getIndexNumber()+
+                        "     Line: "+pair.getSecondSentence().getBeginLine().getLineNumber()+
+                        ", Index: "+pair.getSecondSentence().getBeginLine().getIndexNumber()+System.lineSeparator();
+            }
+        }
+        showResultWindow(result);
+    }
+
+    @FXML
     private void lineComparison() {
         LineComparison lineComparison = new LineComparison();
         lineComparison.compare(patternFileLines, selectedFileLines);
@@ -118,7 +137,7 @@ public class Controller {
         double result = (equalLines/(double)lines) * 100.0;
         System.out.println("Podobieństwo plików : " + result  + "%");
         DecimalFormat format = new DecimalFormat(".##");
-        showResultWindow(format.format(result).toString());
+        showResultWindow(format.format(result).toString()+"%");
     }
 
     private void showResultWindow(String result) {
@@ -131,7 +150,7 @@ public class Controller {
             Stage stage = new Stage();
             stage.setScene(new Scene((Pane) loader.load()));
             ResultController resultController = loader.<ResultController>getController();
-            resultController.initData(result + "%");
+            resultController.initData(result);
             stage.setTitle("Results");
             stage.show();
         } catch (Exception e) {
@@ -169,6 +188,7 @@ public class Controller {
                             CustomFileReader customFileReader = new CustomFileReader();
                             patternFileLines = customFileReader.readCustomString(filesList.get(tmp).getFile());
                             patternFile = filesList.get(tmp).getFile();
+                            patternFileIndex = tmp;
 
                             for (int i = 0; i < patternFileLines.size(); i++) {
                                 listViewPattern.getItems().add(patternFileLines.get(i).getString());

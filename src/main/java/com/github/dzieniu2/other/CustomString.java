@@ -58,10 +58,14 @@ public class CustomString {
 
             }
             if(((string.charAt(i)==' ') || (string.charAt(i)=='.') || (string.charAt(i)==',')) && (j==true)){
+                word = word.replaceAll(System.lineSeparator(),"");
+                if(word.length()==0) return  null;
                 return word;
             }else{
                 if(i==string.length()-1 && j==true){
                     flag++;
+                    word = word.replaceAll(System.lineSeparator(),"");
+                    if(word.length()==0) return  null;
                     return word;
                 }
             }
@@ -102,10 +106,14 @@ public class CustomString {
                 word = word + string.charAt(i);
                 if(i==string.length()-1){
                     flag++;
+                    word = word.replaceAll(System.lineSeparator(),"");
+                    if(word.length()==0) return  null;
                     return word;
                 }
             }else if(string.charAt(i)=='.'){
                 flag++;
+                word = word.replaceAll(System.lineSeparator(),"");
+                if(word.length()==0) return  null;
                 return word;
             }
             flag++;

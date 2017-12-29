@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class KnuthMorrisPratt {
 
     private static int m,n,i,j,t;
-    private static ArrayList<Integer>P = new ArrayList<>();//maksymalna dlugosc wzorca to 100 symboli
+    private static ArrayList<Integer>P = new ArrayList<>();
 
     public KnuthMorrisPratt(){}
 
@@ -24,7 +24,6 @@ public class KnuthMorrisPratt {
             P.add(j,t);
         }
 
-//      algorytm KMP
         i=1; j=0;
         while (i<=n-m+1)
         {

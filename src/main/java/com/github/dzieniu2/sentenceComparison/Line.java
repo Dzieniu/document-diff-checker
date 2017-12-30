@@ -1,4 +1,4 @@
-package com.github.dzieniu2.other;
+package com.github.dzieniu2.sentenceComparison;
 
 public class Line {
 

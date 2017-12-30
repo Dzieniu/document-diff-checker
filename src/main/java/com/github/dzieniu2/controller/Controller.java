@@ -1,6 +1,7 @@
 package com.github.dzieniu2.controller;
 
 import com.github.dzieniu2.other.*;
+import com.github.dzieniu2.sentenceComparison.SentencePair;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -1,4 +1,6 @@
-package com.github.dzieniu2.other;
+package com.github.dzieniu2.sentenceComparison;
+
+import com.github.dzieniu2.sentenceComparison.Sentence;
 
 public class SentencePair {
 

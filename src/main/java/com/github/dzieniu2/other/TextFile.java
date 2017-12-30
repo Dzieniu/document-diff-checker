@@ -1,6 +1,9 @@
 package com.github.dzieniu2.other;
 
 import com.github.dzieniu2.algorythm.KnuthMorrisPratt;
+import com.github.dzieniu2.sentenceComparison.Document;
+import com.github.dzieniu2.sentenceComparison.Sentence;
+import com.github.dzieniu2.sentenceComparison.SentencePair;
 
 import java.io.File;
 import java.io.IOException;

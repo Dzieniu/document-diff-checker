@@ -1,11 +1,11 @@
 package com.github.dzieniu2.vo;
 
-public class TableItem {
+public class SentenceRow {
 
     private String sentence, patternBeginLine, patternBeginIndex, selectedBeginLine, selectedBeginIndex;
 
-    public TableItem(String sentence, String patternBeginLine,
-                     String patternBeginIndex, String selectedBeginLine, String selectedBeginIndex)
+    public SentenceRow(String sentence, String patternBeginLine,
+                       String patternBeginIndex, String selectedBeginLine, String selectedBeginIndex)
     {
         this.sentence = sentence;
         this.patternBeginLine = patternBeginLine;

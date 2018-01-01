@@ -2,7 +2,8 @@ package com.github.dzieniu2.controller;
 
 import com.github.dzieniu2.other.*;
 import com.github.dzieniu2.vo.SentencePair;
-import com.github.dzieniu2.vo.TableItem;
+import com.github.dzieniu2.vo.SentenceRow;
+import com.github.dzieniu2.vo.WordRow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -91,10 +92,10 @@ public class Controller {
     private void sentenceComparison() throws IOException {
 
         ArrayList<SentencePair> sentencePairs = filesList.get(patternFileIndex).getSentenceMatch(selectedFile);
-        ObservableList<TableItem> result = FXCollections.observableArrayList();
+        ObservableList<SentenceRow> result = FXCollections.observableArrayList();
         if(sentencePairs.size()>0) {
             for (SentencePair pair : sentencePairs) {
-                result.add(new TableItem("\""+pair.getSentence()+"\"",pair.getFirstSentence().getBeginLine().getLineNumber()+"",
+                result.add(new SentenceRow("\""+pair.getSentence()+"\"",pair.getFirstSentence().getBeginLine().getLineNumber()+"",
                         pair.getFirstSentence().getBeginLine().getIndexNumber()+"",
                         pair.getSecondSentence().getBeginLine().getLineNumber()+"",
                         pair.getSecondSentence().getBeginLine().getIndexNumber()+""));
@@ -115,6 +116,13 @@ public class Controller {
             simWordsCount = simWordsCount+entry.getValue();
         }
 
+        ObservableList<WordRow> result2 = FXCollections.observableArrayList();
+        if(wordsContained.size()>0) {
+            for(Map.Entry<String, Integer> entry : wordsContained.entrySet()) {
+                result2.add(new WordRow(entry.getKey(),entry.getValue()));
+            }
+        }
+
         int allWordsCount = 0;
         CustomString customString = new CustomString(new CustomFileReader().readContent(selectedFile)
                 .replaceAll(System.lineSeparator(),""));
@@ -122,7 +130,7 @@ public class Controller {
             allWordsCount++;
         }
 
-        showResultWindowSentence(sentencePairs.size(),sentencesCount,result, simWordsCount, allWordsCount, wordsContained);
+        showResultWindowSentence(sentencePairs.size(),sentencesCount,result, simWordsCount, allWordsCount, result2);
     }
 
     @FXML
@@ -181,7 +189,7 @@ public class Controller {
     }
 
     private void showResultWindowSentence(int numberFound, int sentencesCount, ObservableList result,
-                                          int simWordsCount, int allWordsCount, HashMap<String,Integer> wordsContained) {
+                                          int simWordsCount, int allWordsCount, ObservableList result2) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource(
@@ -191,7 +199,7 @@ public class Controller {
             Stage stage = new Stage();
             stage.setScene(new Scene((Pane) loader.load()));
             ResultController resultController = loader.<ResultController>getController();
-            resultController.initDataSentence(numberFound, sentencesCount, result, simWordsCount, allWordsCount, wordsContained);
+            resultController.initDataSentence(numberFound, sentencesCount, result, simWordsCount, allWordsCount, result2);
             stage.setTitle("Results");
             stage.show();
         } catch (Exception e) {

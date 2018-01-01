@@ -1,6 +1,7 @@
 package com.github.dzieniu2.controller;
 
-import com.github.dzieniu2.vo.TableItem;
+import com.github.dzieniu2.vo.SentenceRow;
+import com.github.dzieniu2.vo.WordRow;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -17,15 +18,16 @@ public class ResultController {
     @FXML
     private ComboBox comboBox;
 
-    @FXML
-    private TableColumn columnSentence,columnPatternBeginLine,columnPatternBeginIndex,
-    columnSelectedBeginLine,columnSelectedBeginIndex;
+    private TableColumn columnSentence,columnPattern,columnSelected,
+            columnPatternBeginLine,columnPatternBeginIndex,
+            columnSelectedBeginLine,columnSelectedBeginIndex,
+            columnWord,columnWordCount;
 
     @FXML
     private Label numberLabelSentence,simLabel;
 
     @FXML
-    private TableView resultLabelSentence;
+    private TableView resultTableView;
 
     @FXML
     private Label resultLabel;
@@ -37,7 +39,7 @@ public class ResultController {
 
     private int sentencesCount;
 
-    private ObservableList sentenceMatchResult;
+    private ObservableList sentenceMatchResult,wordMatchResult;
 
     private int simWordsCount;
 
@@ -52,7 +54,48 @@ public class ResultController {
     }
 
     public void initDataSentence(int number,int sentencesCount,ObservableList result,
-                                 int simWordsCount, int allWordsCount, HashMap<String,Integer> wordsContained) {
+                                 int simWordsCount, int allWordsCount, ObservableList result2) {
+
+        columnSentence = new TableColumn();
+        columnSentence.setPrefWidth(205);
+        columnSentence.setText("Sentence");
+
+        columnPattern = new TableColumn();
+        columnPattern.setPrefWidth(160);
+        columnPattern.setText("Pattern");
+
+        columnSelected = new TableColumn();
+        columnSelected.setPrefWidth(160);
+        columnSelected.setText("Selected");
+
+        columnPatternBeginLine = new TableColumn();
+        columnPatternBeginLine.setMinWidth(80);
+        columnPatternBeginLine.setText("Line");
+
+        columnPatternBeginIndex = new TableColumn();
+        columnPatternBeginIndex.setMinWidth(80);
+        columnPatternBeginIndex.setText("Index");
+
+        columnSelectedBeginLine = new TableColumn();
+        columnSelectedBeginLine.setMinWidth(80);
+        columnSelectedBeginLine.setText("Line");
+
+        columnSelectedBeginIndex = new TableColumn();
+        columnSelectedBeginIndex.setMinWidth(80);
+        columnSelectedBeginIndex.setText("Index");
+
+        columnWord = new TableColumn();
+        columnWord.setMinWidth(300);
+        columnWord.setText("Word");
+
+        columnWordCount = new TableColumn();
+        columnWordCount.setMinWidth(225);
+        columnWordCount.setText("Found");
+
+        columnPattern.getColumns().addAll(columnPatternBeginLine,columnPatternBeginIndex);
+        columnSelected.getColumns().addAll(columnSelectedBeginLine,columnSelectedBeginIndex);
+
+        resultTableView.getColumns().addAll(columnSentence,columnPattern,columnSelected);
 
         this.similarSentences = number;
         this.sentencesCount = sentencesCount;
@@ -60,7 +103,7 @@ public class ResultController {
 
         this.simWordsCount = simWordsCount;
         this.allWordsCount = allWordsCount;
-        this.wordsContained = wordsContained;
+        this.wordMatchResult = result2;
 
         comboBox.getItems().addAll("sentence","word");
         comboBox.getSelectionModel().select(0);
@@ -72,18 +115,23 @@ public class ResultController {
         });
 
         columnSentence.setCellValueFactory(
-                new PropertyValueFactory<TableItem, String>("sentence"));
+                new PropertyValueFactory<SentenceRow, String>("sentence"));
 
         columnPatternBeginLine.setCellValueFactory(
-                new PropertyValueFactory<TableItem, String>("patternBeginLine"));
+                new PropertyValueFactory<SentenceRow, String>("patternBeginLine"));
         columnPatternBeginIndex.setCellValueFactory(
-                new PropertyValueFactory<TableItem, String>("patternBeginIndex"));
+                new PropertyValueFactory<SentenceRow, String>("patternBeginIndex"));
         columnSelectedBeginLine.setCellValueFactory(
-                new PropertyValueFactory<TableItem, String>("selectedBeginLine"));
+                new PropertyValueFactory<SentenceRow, String>("selectedBeginLine"));
         columnSelectedBeginIndex.setCellValueFactory(
-                new PropertyValueFactory<TableItem, String>("selectedBeginIndex"));
+                new PropertyValueFactory<SentenceRow, String>("selectedBeginIndex"));
 
-        resultLabelSentence.setItems(result);
+        columnWord.setCellValueFactory(
+                new PropertyValueFactory<WordRow, String>("word"));
+        columnWordCount.setCellValueFactory(
+                new PropertyValueFactory<WordRow, String>("counter"));
+
+        resultTableView.setItems(result);
         simLabel.setText("Sentence similiarity: "+((double) number/sentencesCount)*100 +"%");
         numberLabelSentence.setText("Matching sentences found:"+number);
     }
@@ -95,6 +143,12 @@ public class ResultController {
     }
 
     public void loadWordView(){
+
+        resultTableView.getColumns().clear();
+        resultTableView.getColumns().addAll(columnWord,columnWordCount);
+
+        resultTableView.getItems().clear();
+        resultTableView.getItems().addAll(wordMatchResult);
 
         simLabel.setText("Word similiarity: "+((double) simWordsCount/allWordsCount)*100 +"%");
         numberLabelSentence.setText("Matching words found:"+simWordsCount);

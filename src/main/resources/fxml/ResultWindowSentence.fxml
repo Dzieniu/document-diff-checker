@@ -11,19 +11,9 @@
    <children>
       <Button fx:id="closeButton" layoutX="274.0" layoutY="344.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="31.0" prefWidth="78.0" text="Close" />
       <Label fx:id="numberLabelSentence" layoutX="48.0" layoutY="21.0" prefHeight="21.0" prefWidth="304.0" text="Matching sentences found:" />
-      <TableView fx:id="resultLabelSentence" layoutX="43.0" layoutY="94.0" prefHeight="228.0" prefWidth="517.0">
+      <TableView fx:id="resultTableView" layoutX="43.0" layoutY="94.0" prefHeight="228.0" prefWidth="525.0">
          <columns>
-            <TableColumn fx:id="columnSentence" prefWidth="222.0" text="Sentence" />
-            <TableColumn fx:id="columnPattern" prefWidth="138.0" text="Pattern">
-               <columns>
-                  <TableColumn fx:id="columnPatternBeginLine" prefWidth="75.0" text="Line" />
-                  <TableColumn fx:id="columnPatternBeginIndex" prefWidth="75.0" text="Index" />
-               </columns></TableColumn>
-            <TableColumn fx:id="columnSelected" prefWidth="156.0" text="Selected">
-               <columns>
-                  <TableColumn fx:id="columnSelectedBeginLine" prefWidth="78.0" text="Line" />
-                  <TableColumn fx:id="columnSelectedBeginIndex" prefWidth="72.0" text="Index" />
-               </columns></TableColumn>
+
          </columns></TableView>
       <Label fx:id="simLabel" layoutX="48.0" layoutY="46.0" prefHeight="31.0" prefWidth="304.0" text="Sentence similiarity: " />
       <ComboBox fx:id="comboBox" layoutX="410.0" layoutY="16.0" prefWidth="150.0" />

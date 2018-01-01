@@ -102,7 +102,7 @@ public class CustomString {
             if(string.charAt(i)!=' '){
                 j=true;
             }
-            if(string.charAt(i)!='.' && j==true){
+            if((string.charAt(i)!='.' && string.charAt(i)!='!' && string.charAt(i)!='?') && j==true){
                 word = word + string.charAt(i);
                 if(i==string.length()-1){
                     flag++;
@@ -110,7 +110,7 @@ public class CustomString {
                     if(word.length()==0) return  null;
                     return word;
                 }
-            }else if(string.charAt(i)=='.'){
+            }else if(string.charAt(i)=='.' || string.charAt(i)=='!' || string.charAt(i)=='?'){
                 flag++;
                 word = word.replaceAll(System.lineSeparator(),"");
                 if(word.length()==0) return  null;

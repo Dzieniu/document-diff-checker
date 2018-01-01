@@ -1,6 +1,4 @@
-package com.github.dzieniu2.sentenceComparison;
-
-import com.github.dzieniu2.sentenceComparison.Line;
+package com.github.dzieniu2.vo;
 
 public class Sentence {
 

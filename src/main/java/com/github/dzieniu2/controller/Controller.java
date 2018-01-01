@@ -1,7 +1,10 @@
 package com.github.dzieniu2.controller;
 
 import com.github.dzieniu2.other.*;
-import com.github.dzieniu2.sentenceComparison.SentencePair;
+import com.github.dzieniu2.vo.SentencePair;
+import com.github.dzieniu2.vo.TableItem;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,9 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 public class Controller {
 
@@ -47,7 +48,7 @@ public class Controller {
             selectedFileLines = customFileReader.readCustomString(selectedFile);
 
             for (int i = 0; i < selectedFileLines.size(); i++) {
-                listViewChosenFile.getItems().add(selectedFileLines.get(i).getString());
+                listViewChosenFile.getItems().add((i+1)+".  "+selectedFileLines.get(i).getString());
             }
 
         }
@@ -90,18 +91,43 @@ public class Controller {
     private void sentenceComparison() throws IOException {
 
         ArrayList<SentencePair> sentencePairs = filesList.get(patternFileIndex).getSentenceMatch(selectedFile);
-        String result = "";
+        ObservableList<TableItem> result = FXCollections.observableArrayList();
         if(sentencePairs.size()>0) {
-            result = result + "Pattern:              Selected:"+System.lineSeparator();
             for (SentencePair pair : sentencePairs) {
-                result = result + "Line: "+pair.getFirstSentence().getBeginLine().getLineNumber()+
-                        ", Index: "+pair.getFirstSentence().getBeginLine().getIndexNumber()+
-                        "     Line: "+pair.getSecondSentence().getBeginLine().getLineNumber()+
-                        ", Index: "+pair.getSecondSentence().getBeginLine().getIndexNumber()+System.lineSeparator();
+                result.add(new TableItem("\""+pair.getSentence()+"\"",pair.getFirstSentence().getBeginLine().getLineNumber()+"",
+                        pair.getFirstSentence().getBeginLine().getIndexNumber()+"",
+                        pair.getSecondSentence().getBeginLine().getLineNumber()+"",
+                        pair.getSecondSentence().getBeginLine().getIndexNumber()+""));
             }
         }
-        System.out.println(result);
-        showResultWindowSentence(sentencePairs.size(),result);
+
+        CustomFileReader customFileReader = new CustomFileReader();
+        CustomString selectedFileString = new CustomString(customFileReader.readContent(selectedFile));
+        int sentencesCount = 0;
+        while(selectedFileString.nextSentence()!=null) sentencesCount++;
+
+        //Word
+        HashMap<String,Integer> wordsContained = filesList.get(patternFileIndex).getWordMatch(selectedFile);
+
+        int simWordsCount = 0;
+        for(Map.Entry<String, Integer> entry : wordsContained.entrySet()) {
+
+            simWordsCount = simWordsCount+entry.getValue();
+        }
+
+        int allWordsCount = 0;
+        CustomString customString = new CustomString(new CustomFileReader().readContent(selectedFile)
+                .replaceAll(System.lineSeparator(),""));
+        while(customString.nextWord()!=null){
+            allWordsCount++;
+        }
+
+        showResultWindowSentence(sentencePairs.size(),sentencesCount,result, simWordsCount, allWordsCount, wordsContained);
+    }
+
+    @FXML
+    private void wordComparison() throws IOException {
+
     }
 
     @FXML
@@ -154,7 +180,8 @@ public class Controller {
 
     }
 
-    private void showResultWindowSentence(int numberFound, String result) {
+    private void showResultWindowSentence(int numberFound, int sentencesCount, ObservableList result,
+                                          int simWordsCount, int allWordsCount, HashMap<String,Integer> wordsContained) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource(
@@ -164,7 +191,7 @@ public class Controller {
             Stage stage = new Stage();
             stage.setScene(new Scene((Pane) loader.load()));
             ResultController resultController = loader.<ResultController>getController();
-            resultController.initDataSentence(numberFound, result);
+            resultController.initDataSentence(numberFound, sentencesCount, result, simWordsCount, allWordsCount, wordsContained);
             stage.setTitle("Results");
             stage.show();
         } catch (Exception e) {
@@ -205,7 +232,7 @@ public class Controller {
                             patternFileIndex = tmp;
 
                             for (int i = 0; i < patternFileLines.size(); i++) {
-                                listViewPattern.getItems().add(patternFileLines.get(i).getString());
+                                listViewPattern.getItems().add((i+1)+".  "+patternFileLines.get(i).getString());
                             }
 
                         } catch (IOException e) {

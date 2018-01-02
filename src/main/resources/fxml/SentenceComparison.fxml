@@ -10,12 +10,12 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.dzieniu2.controller.ResultController">
    <children>
       <Button fx:id="closeButton" layoutX="274.0" layoutY="344.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="31.0" prefWidth="78.0" text="Close" />
-      <Label fx:id="numberLabelSentence" layoutX="48.0" layoutY="21.0" prefHeight="21.0" prefWidth="304.0" text="Matching sentences found:" />
+      <Label fx:id="numberOfSimilarLabel" layoutX="48.0" layoutY="21.0" prefHeight="21.0" prefWidth="304.0" text="Matching sentences found:" />
       <TableView fx:id="resultTableView" layoutX="43.0" layoutY="94.0" prefHeight="228.0" prefWidth="525.0">
          <columns>
 
          </columns></TableView>
-      <Label fx:id="simLabel" layoutX="48.0" layoutY="46.0" prefHeight="31.0" prefWidth="304.0" text="Sentence similiarity: " />
+      <Label fx:id="similarityPercentLabel" layoutX="48.0" layoutY="46.0" prefHeight="31.0" prefWidth="304.0" text="Sentence similiarity: " />
       <ComboBox fx:id="comboBox" layoutX="410.0" layoutY="16.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

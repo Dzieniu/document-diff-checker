@@ -16,20 +16,8 @@ public class CustomString {
     public int countWords(){
 
         int counter = 0;
-        boolean j = false;
-        for(int i=0;i<string.length();i++){
-            if(string.charAt(i)!=' ' && (string.charAt(i)!='.') && (string.charAt(i)!=',')){
-                j = true;
-            }
-            if(((string.charAt(i)==' ') || (string.charAt(i)=='.') || (string.charAt(i)==',')) && (j==true)){
-                counter++;
-                j = false;
-            }else{
-                if(i==string.length()-1 && j==true){
-                    counter++;
-                }
-            }
-        }
+        CustomString holder = new CustomString(getString());
+        while(holder.nextWord()!=null) counter++;
         return counter;
     }
 
@@ -52,12 +40,14 @@ public class CustomString {
         String word = "";
         boolean j = false;
         for(int i=flag;i<string.length();i++){
-            if(string.charAt(i)!=' ' && (string.charAt(i)!='.') && (string.charAt(i)!=',')){
+            if(string.charAt(i)!=' ' && (string.charAt(i)!='.')&& (string.charAt(i)!='?')
+                    && (string.charAt(i)!='!') && (string.charAt(i)!=',')){
                 j = true;
                 word = word + string.charAt(i);
 
             }
-            if(((string.charAt(i)==' ') || (string.charAt(i)=='.') || (string.charAt(i)==',')) && (j==true)){
+            if(((string.charAt(i)==' ') || (string.charAt(i)=='.') || (string.charAt(i)==',') || (string.charAt(i)=='?')
+                    || (string.charAt(i)=='!')) && (j==true)){
                 word = word.replaceAll(System.lineSeparator(),"");
                 if(word.length()==0) return  null;
                 return word;
@@ -77,20 +67,8 @@ public class CustomString {
     public int countSentences(){
 
         int counter = 0;
-        boolean j = false;
-        for(int i=0;i<string.length();i++){
-            if(string.charAt(i)!=' ' && (string.charAt(i)!='.') && (string.charAt(i)!=',')){
-                j = true;
-            }
-            if((string.charAt(i)=='.') && (j==true)){
-                counter++;
-                j = false;
-            }else{
-                if(i==string.length()-1 && j==true){
-                    counter++;
-                }
-            }
-        }
+        CustomString holder = new CustomString(getString());
+        while(holder.nextSentence()!=null) counter++;
         return counter;
     }
 

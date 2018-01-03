@@ -141,11 +141,24 @@ public class Controller {
             Label label = new Label(selectedFileLines.get(i).getString());
             label.setMinWidth(listViewChosenFile.getWidth());
             label.setMinHeight(24);
+            System.out.println(i);
             if (selectedFileLines.get(i).isEqual())
                 label.setStyle("-fx-background-color: greenyellow;");
             else
                 label.setStyle("-fx-background-color: orangered");
+
             listViewChosenFile.getItems().add(label);
+        }
+
+        int linesSizeDiff = patternFileLines.size() - selectedFileLines.size();
+        System.out.println(linesSizeDiff);
+        for (int i = 0; i < linesSizeDiff; i++) {
+            Label label = new Label("");
+            label.setMinWidth(listViewChosenFile.getWidth());
+            label.setMinHeight(24);
+            label.setStyle("-fx-background-color: orangered");
+            listViewChosenFile.getItems().add(label);
+            selectedFileLines.add(new CustomString(""));
         }
 
         int lines = selectedFileLines.size();

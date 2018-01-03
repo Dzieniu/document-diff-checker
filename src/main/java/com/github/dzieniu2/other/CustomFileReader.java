@@ -30,12 +30,10 @@ public class CustomFileReader {
         HWPFDocument document = new HWPFDocument(fis);
         fis.close();
         WordExtractor extractor = new WordExtractor(document);
-        String[]paragraphs = extractor.getParagraphText();
-        for(String paragraph : paragraphs){
-            System.out.println(paragraph);
-        }
+
         ArrayList<String> arrayList = new ArrayList<>();
         for(String para : extractor.getParagraphText()){
+            para = para.replaceAll(System.lineSeparator(),"");
             arrayList.add(para);
         }
         return arrayList;

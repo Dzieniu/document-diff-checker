@@ -55,12 +55,14 @@ public class TextFile {
         Sentence patternSentence,selectedSentence;
         while ((sentence = patternFileString.nextSentence()) != null){
             Integer index = KnuthMorrisPratt.KMP_alg(selectedFileString.getString().replaceAll(System.lineSeparator(),""),sentence);
+            Integer index2 = KnuthMorrisPratt.KMP_alg(patternFileString.getString().replaceAll(System.lineSeparator(),""),sentence);
+
             if(index!=null) {
-                patternSentence = new Sentence(patternTextFile.getlineForIndex(patternFileString.getString()
-                        .substring(0,patternFileString.getFlag()-sentence.length())
-                        .replaceAll(System.lineSeparator(),"").length()),null);
+                patternSentence = new Sentence(patternTextFile.getlineForIndex(index2),null);
                 selectedSentence = new Sentence(this.getlineForIndex(index),null);
                 sentencePairs.add(new SentencePair(sentence,patternSentence,selectedSentence));
+
+                System.out.println(patternSentence.getBeginLine().getLineNumber()+" "+patternSentence.getBeginLine().getIndexNumber());
             }
         }
         return sentencePairs;

@@ -33,6 +33,7 @@ public class CustomFileReader {
 
         ArrayList<String> arrayList = new ArrayList<>();
         for(String para : extractor.getParagraphText()){
+            para = para.replaceAll(System.lineSeparator(),"");
             arrayList.add(para);
         }
         return arrayList;

@@ -95,51 +95,42 @@ public class Controller {
     @FXML
     private void sentenceComparison() throws IOException {
 
+        CustomString selectedFileString = new CustomString(new CustomFileReader().readContent(selectedFile));
+
         ArrayList<SentencePair> sentencePairs = filesList.get(patternFileIndex).getSentenceMatch(selectedFile);
-        ObservableList<SentenceRow> result = FXCollections.observableArrayList();
+
+        ObservableList<SentenceRow> sentenceRows = FXCollections.observableArrayList();
         if(sentencePairs.size()>0) {
             for (SentencePair pair : sentencePairs) {
-                result.add(new SentenceRow("\""+pair.getSentence()+"\"",pair.getFirstSentence().getBeginLine().getLineNumber()+"",
+                sentenceRows.add(new SentenceRow("\""+pair.getSentence()+"\"",pair.getFirstSentence().getBeginLine().getLineNumber()+"",
                         pair.getFirstSentence().getBeginLine().getIndexNumber()+"",
                         pair.getSecondSentence().getBeginLine().getLineNumber()+"",
                         pair.getSecondSentence().getBeginLine().getIndexNumber()+""));
             }
         }
 
-        CustomFileReader customFileReader = new CustomFileReader();
-        CustomString selectedFileString = new CustomString(customFileReader.readContent(selectedFile));
-        int sentencesCount = 0;
-        while(selectedFileString.nextSentence()!=null) sentencesCount++;
+        int similarSentences = sentencePairs.size();
+        int allSentences = selectedFileString.countSentences();
 
         //Word
         HashMap<String,Integer> wordsContained = filesList.get(patternFileIndex).getWordMatch(selectedFile);
 
-        int simWordsCount = 0;
-        for(Map.Entry<String, Integer> entry : wordsContained.entrySet()) {
-
-            simWordsCount = simWordsCount+entry.getValue();
-        }
-
-        ObservableList<WordRow> result2 = FXCollections.observableArrayList();
+        ObservableList<WordRow> wordRows = FXCollections.observableArrayList();
         if(wordsContained.size()>0) {
             for(Map.Entry<String, Integer> entry : wordsContained.entrySet()) {
-                result2.add(new WordRow(entry.getKey(),entry.getValue()));
+                wordRows.add(new WordRow(entry.getKey(),entry.getValue()));
             }
         }
 
-        int allWordsCount = 0;
-        CustomString customString = new CustomString(new CustomFileReader().readContent(selectedFile)
-                .replaceAll(System.lineSeparator(),""));
-        while(customString.nextWord()!=null){
-            allWordsCount++;
+        int similarWords = 0;
+        for(Map.Entry<String, Integer> entry : wordsContained.entrySet()) {
+
+            similarWords = similarWords+entry.getValue();
         }
 
-        showResultWindowSentence(sentencePairs.size(),sentencesCount,result, simWordsCount, allWordsCount, result2);
-    }
+        int allWords = selectedFileString.countWords();
 
-    @FXML
-    private void wordComparison() throws IOException {
-
+        showResultWindow(similarSentences,allSentences,sentenceRows, similarWords, allWords, wordRows);
     }
 
     @FXML
@@ -184,18 +175,18 @@ public class Controller {
         resultLabel.setText("Podobieństwo plików : " + format.format(result).toString() + "%");
     }
 
-    private void showResultWindowSentence(int numberFound, int sentencesCount, ObservableList result,
-                                          int simWordsCount, int allWordsCount, ObservableList result2) {
+    private void showResultWindow(int similarSentences, int allSentences, ObservableList sentenceRows,
+                                  int similarWords, int allWords, ObservableList wordRows) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource(
-                            "/fxml/ResultWindowSentence.fxml"
+                            "/fxml/SentenceComparison.fxml"
                     )
             );
             Stage stage = new Stage();
             stage.setScene(new Scene((Pane) loader.load()));
             ResultController resultController = loader.<ResultController>getController();
-            resultController.initDataSentence(numberFound, sentencesCount, result, simWordsCount, allWordsCount, result2);
+            resultController.sentenceComparison(similarSentences, allSentences, sentenceRows, similarWords, allWords, wordRows);
             stage.setTitle("Results");
             stage.show();
         } catch (Exception e) {

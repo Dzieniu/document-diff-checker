@@ -11,20 +11,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.util.HashMap;
-
 public class ResultController {
 
     @FXML
     private ComboBox comboBox;
 
-    private TableColumn columnSentence,columnPattern,columnSelected,
-            columnPatternBeginLine,columnPatternBeginIndex,
-            columnSelectedBeginLine,columnSelectedBeginIndex,
-            columnWord,columnWordCount;
-
     @FXML
-    private Label numberLabelSentence,simLabel;
+    private Label numberOfSimilarLabel, similarityPercentLabel;
 
     @FXML
     private TableView resultTableView;
@@ -35,17 +28,9 @@ public class ResultController {
     @FXML
     private Button closeButton;
 
-    private int similarSentences;
+    private int similarSentences,allSentences,similarWords,allWords;
 
-    private int sentencesCount;
-
-    private ObservableList sentenceMatchResult,wordMatchResult;
-
-    private int simWordsCount;
-
-    private int allWordsCount;
-
-    private HashMap<String,Integer> wordsContained;
+    private ObservableList sentenceRows, wordRows;
 
     public void initialize() {};
 
@@ -53,8 +38,65 @@ public class ResultController {
         resultLabel.setText(result);
     }
 
-    public void initDataSentence(int number,int sentencesCount,ObservableList result,
-                                 int simWordsCount, int allWordsCount, ObservableList result2) {
+    public void sentenceComparison(int similarSentences, int allSentences, ObservableList sentenceRows,
+                                   int similarWords, int allWords, ObservableList wordRows) {
+
+        this.similarSentences = similarSentences;
+        this.allSentences = allSentences;
+        this.sentenceRows = sentenceRows;
+
+        this.similarWords = similarWords;
+        this.allWords = allWords;
+        this.wordRows = wordRows;
+
+        configureView();
+
+        comboBox.getSelectionModel().selectFirst();
+        loadSentenceView();
+    }
+
+    public void loadSentenceView(){
+
+        resultTableView.getColumns().clear();
+        resultTableView.getColumns().addAll(columnSentence,columnPattern,columnSelected);
+
+        resultTableView.getItems().clear();
+        resultTableView.getItems().addAll(sentenceRows);
+
+        similarityPercentLabel.setText("Sentence similiarity: "+((double) similarSentences/ allSentences)*100 +"%");
+        numberOfSimilarLabel.setText("Matching sentences found:"+similarSentences);
+    }
+
+    public void loadWordView(){
+
+        resultTableView.getColumns().clear();
+        resultTableView.getColumns().addAll(columnWord,columnWordCount);
+
+        resultTableView.getItems().clear();
+        resultTableView.getItems().addAll(wordRows);
+
+        similarityPercentLabel.setText("Word similiarity: "+((double) similarWords / allWords)*100 +"%");
+        numberOfSimilarLabel.setText("Matching words found:"+ similarWords);
+    }
+
+    public void closeWindow(ActionEvent actionEvent) {
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
+    }
+
+    private TableColumn
+
+            columnSentence,
+            columnPattern,
+            columnSelected,
+            columnPatternBeginLine,
+            columnPatternBeginIndex,
+            columnSelectedBeginLine,
+            columnSelectedBeginIndex,
+            columnWord,
+            columnWordCount;
+
+    public void configureView(){
 
         columnSentence = new TableColumn();
         columnSentence.setPrefWidth(205);
@@ -97,21 +139,10 @@ public class ResultController {
 
         resultTableView.getColumns().addAll(columnSentence,columnPattern,columnSelected);
 
-        this.similarSentences = number;
-        this.sentencesCount = sentencesCount;
-        this.sentenceMatchResult = result;
-
-        this.simWordsCount = simWordsCount;
-        this.allWordsCount = allWordsCount;
-        this.wordMatchResult = result2;
-
         comboBox.getItems().addAll("sentence","word");
-        comboBox.getSelectionModel().select(0);
-        comboBox.valueProperty().addListener(new ChangeListener<String>() {
-            @Override public void changed(ObservableValue observableValue, String oldValue, String newValue) {
-                if(oldValue.toString().matches("word")) loadSentenceView();
-                if(oldValue.toString().matches("sentence")) loadWordView();
-            }
+        comboBox.valueProperty().addListener((ChangeListener<String>) (observableValue, oldValue, newValue) -> {
+            if(newValue.matches("sentence")) loadSentenceView();
+            if(newValue.matches("word")) loadWordView();
         });
 
         columnSentence.setCellValueFactory(
@@ -130,32 +161,5 @@ public class ResultController {
                 new PropertyValueFactory<WordRow, String>("word"));
         columnWordCount.setCellValueFactory(
                 new PropertyValueFactory<WordRow, String>("counter"));
-
-        resultTableView.setItems(result);
-        simLabel.setText("Sentence similiarity: "+((double) number/sentencesCount)*100 +"%");
-        numberLabelSentence.setText("Matching sentences found:"+number);
-    }
-
-    public void loadSentenceView(){
-
-        simLabel.setText("Sentence similiarity: "+((double) similarSentences/sentencesCount)*100 +"%");
-        numberLabelSentence.setText("Matching sentences found:"+similarSentences);
-    }
-
-    public void loadWordView(){
-
-        resultTableView.getColumns().clear();
-        resultTableView.getColumns().addAll(columnWord,columnWordCount);
-
-        resultTableView.getItems().clear();
-        resultTableView.getItems().addAll(wordMatchResult);
-
-        simLabel.setText("Word similiarity: "+((double) simWordsCount/allWordsCount)*100 +"%");
-        numberLabelSentence.setText("Matching words found:"+simWordsCount);
-    }
-
-    public void closeWindow(ActionEvent actionEvent) {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.close();
     }
 }

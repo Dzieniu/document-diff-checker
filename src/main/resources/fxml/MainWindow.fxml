@@ -1,10 +1,16 @@
-<?fxml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?fxml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<BorderPane prefHeight="868.0" prefWidth="1596.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.dzieniu2.controller.Controller">
+
+<BorderPane prefHeight="868.0" prefWidth="1596.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.dzieniu2.controller.Controller">
    <top>
        <MenuBar>
            <menus>
@@ -17,21 +23,22 @@
                <Menu mnemonicParsing="false" text="Compare">
                    <items>
                        <MenuItem mnemonicParsing="false" onAction="#sortByFilenameMatch" text="Sort by names" />
-                       <MenuItem mnemonicParsing="false" onAction="#lineComparison" text="Line comparison"/>
-                       <MenuItem mnemonicParsing="false" onAction="#sentenceComparison" text="Sentence comparison"/>
+                       <MenuItem mnemonicParsing="false" onAction="#lineComparison" text="Line comparison" />
+                       <MenuItem mnemonicParsing="false" onAction="#sentenceComparison" text="Sentence comparison" />
                    </items>
                </Menu>
            </menus>
        </MenuBar>
    </top>
     <left>
-        <VBox prefWidth="350">
+        <VBox prefHeight="783.0" prefWidth="350">
             <Label fx:id="labelSelectedDirectory" prefWidth="Infinity" style="-fx-background-color: #d0d0d0;" text="  Selected directory" textFill="#655959">
                 <font>
                     <Font size="17.0" />
                 </font>
             </Label>
-            <ListView fx:id="listViewFilesList" prefHeight="1000" />
+            <ListView fx:id="listViewFilesList" prefHeight="691.0" prefWidth="350.0" />
+         <Label fx:id="resultLabel" prefHeight="17.0" prefWidth="352.0" text="Podobieństwo plików:" />
         </VBox>
     </left>
    <center>

@@ -140,7 +140,6 @@ public class Controller {
 
         listViewChosenFile.getItems().clear();
 
-
         for (int i = 0; i < selectedFileLines.size(); i++) {
             Label label = new Label((i+1) + ". " + selectedFileLines.get(i).getString());
             label.setMinWidth(listViewChosenFile.getWidth());

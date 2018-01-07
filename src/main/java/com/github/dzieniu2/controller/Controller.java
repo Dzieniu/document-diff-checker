@@ -24,7 +24,7 @@ import java.util.*;
 public class Controller {
 
     @FXML
-    private Label labelSelectedFile, labelPattern, labelSelectedDirectory;
+    private Label labelSelectedFile, labelPattern, labelSelectedDirectory, resultLabel;
     @FXML
     private ListView listViewFilesList, listViewChosenFile, listViewPattern;
 
@@ -52,6 +52,7 @@ public class Controller {
                 listViewChosenFile.getItems().add((i+1)+".  "+selectedFileLines.get(i).getString());
             }
 
+            sortByFilenameMatch();
         }
     }
 
@@ -68,7 +69,10 @@ public class Controller {
                 filesList.add(new TextFile(filenameList[i], selectedDirectory.getAbsolutePath() + "\\" + filenameList[i]));
             }
             labelSelectedDirectory.setText("  Selected directory: " + selectedDirectory.getAbsolutePath());
-            refreshFilesList();
+            if (isFileChoosen())
+                sortByFilenameMatch();
+            else
+                refreshFilesList();
         }
     }
 
@@ -76,7 +80,7 @@ public class Controller {
     @FXML
     private void sortByFilenameMatch() throws IOException {
 
-        if (areChosen()) {
+        if (isDirectoryChoosen() && isFileChoosen()) {
             Collections.sort(filesList, new Comparator<TextFile>() {
                 public int compare(TextFile o1, TextFile o2) {
                     if (o1.getNameMatch(selectedFile) == o2.getNameMatch(selectedFile))
@@ -147,7 +151,7 @@ public class Controller {
 
 
         for (int i = 0; i < selectedFileLines.size(); i++) {
-            Label label = new Label(selectedFileLines.get(i).getString());
+            Label label = new Label((i+1) + ". " + selectedFileLines.get(i).getString());
             label.setMinWidth(listViewChosenFile.getWidth());
             label.setMinHeight(24);
             System.out.println(i);
@@ -176,29 +180,8 @@ public class Controller {
             if (str.isEqual()) equalLines++;
 
         double result = (equalLines/(double)lines) * 100.0;
-        System.out.println("Podobieństwo plików : " + result  + "%");
-        DecimalFormat format = new DecimalFormat(".##");
-        showResultWindow(format.format(result).toString()+"%");
-    }
-
-    private void showResultWindow(String result) {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource(
-                            "/fxml/ResultWindow.fxml"
-                    )
-            );
-            Stage stage = new Stage();
-            stage.setScene(new Scene((Pane) loader.load()));
-            ResultController resultController = loader.<ResultController>getController();
-            resultController.initData(result);
-            stage.setTitle("Results");
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
+        DecimalFormat format = new DecimalFormat("###.##");
+        resultLabel.setText("Podobieństwo plików : " + format.format(result).toString() + "%");
     }
 
     private void showResultWindowSentence(int numberFound, int sentencesCount, ObservableList result,
@@ -222,14 +205,12 @@ public class Controller {
 
     }
 
-    private boolean areChosen() {
+    private boolean isDirectoryChoosen() {
+        return selectedDirectory == null ? false : true;
+    }
 
-        if (selectedFile == null) {
-            return false;
-        } else if (selectedDirectory == null) {
-            return false;
-        }
-        return true;
+    private boolean isFileChoosen() {
+        return selectedFile == null ? false : true;
     }
 
     private void refreshFilesList() {
@@ -258,6 +239,9 @@ public class Controller {
 
                         } catch (IOException e) {
                         }
+
+                        if (isDirectoryChoosen() && isFileChoosen())
+                            lineComparison();
                     }
                 });
                 listViewFilesList.getItems().add(label);

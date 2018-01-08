@@ -1,5 +1,6 @@
 package com.github.dzieniu2.other;
 
+import com.github.dzieniu2.algorythm.BoyerMoore;
 import com.github.dzieniu2.algorythm.KnuthMorrisPratt;
 import com.github.dzieniu2.vo.*;
 
@@ -32,7 +33,7 @@ public class TextFile {
             CustomString moreWords = new CustomString(targetName.hasMoreWords(patternName.getString()));
             double counter = 0.0;
             for (int j = 0; j < lessWords.countWords(); j++) {
-                if (KnuthMorrisPratt.KMP_alg(moreWords.getString(), lessWords.nextWord()) != null) {
+                if (BoyerMoore.BM_alg(moreWords.getString(), lessWords.nextWord()) != null) {
                     counter = counter + 1.0;
                 }
             }

@@ -15,6 +15,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
+        // uruchamia glowne okienko programu
         Parent parent = FXMLLoader.load(getClass().getResource("/fxml/MainWindow.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(parent);

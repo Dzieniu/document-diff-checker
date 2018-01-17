@@ -6,12 +6,14 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 
+// klasa zarzadzajaca wybieraniem plikow
 public class CustomFileChooser {
 
     private File selectedFile;
 
     public CustomFileChooser(){}
 
+    // mozliwe pliki do wyboru tylko z rozszerzeniem .doc, .docx, .txt
     public File selectFile() throws IOException{
 
         FileChooser fileChooser = new FileChooser();

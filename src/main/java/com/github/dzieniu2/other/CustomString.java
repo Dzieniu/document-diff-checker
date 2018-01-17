@@ -1,5 +1,7 @@
 package com.github.dzieniu2.other;
 
+// klasa rozszerzajaca string a dokladnie implementujaca dodatkowe metody przydatne przy tworzeniu porownywania
+// klasa zawiera rowniez pola flag i isEqual w celu pozniejszego porownywania dwoch linii
 public class CustomString {
 
     private String string;
@@ -13,6 +15,7 @@ public class CustomString {
         isEqual = false;
     }
 
+    // zlicza slowa w ciagu
     public int countWords(){
 
         int counter = 0;
@@ -21,6 +24,9 @@ public class CustomString {
         return counter;
     }
 
+
+    // sprawdza ktory ciag ma miej znakow
+    // zwraca ten ciag kotry ma mniej znakow
     public String hasLessWords(String string){
 
         if((this.countWords()<new CustomString(string).countWords()) || (this.countWords()==new CustomString(string).countWords())){
@@ -28,6 +34,8 @@ public class CustomString {
         }else return string;
     }
 
+    // sprawdza ktory ciag ma wiecej znakow
+    // zwraca ten ktory ma wiecej znakow
     public String hasMoreWords(String string){
 
         if((this.countWords()>new CustomString(string).countWords()) || (this.countWords()==new CustomString(string).countWords())){
@@ -35,6 +43,7 @@ public class CustomString {
         }else return string;
     }
 
+    // przechodzi do nastepnego slowa w okreslonym ciagu i go zwraca
     public String nextWord(){
 
         String word = "";
@@ -64,6 +73,7 @@ public class CustomString {
         return null;
     }
 
+    // zlicza zdania
     public int countSentences(){
 
         int counter = 0;
@@ -72,6 +82,7 @@ public class CustomString {
         return counter;
     }
 
+    // zwraca kolejne zdanie w ciagu jesli nie wystepuje, zwraca null
     public String nextSentence(){
 
         String word = "";

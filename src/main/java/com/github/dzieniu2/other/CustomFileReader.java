@@ -14,6 +14,7 @@ public class CustomFileReader {
 
     public CustomFileReader(){}
 
+    // zwraca zawartosc pliku .doc
     public String readDocContent(File selectedFile) throws IOException{
 
         FileInputStream fis = new FileInputStream(selectedFile);
@@ -23,7 +24,7 @@ public class CustomFileReader {
 
         return extractor.getText();
     }
-
+    // zwraca zawartosc pliku doc jako liste linii
     public ArrayList<String> readDocLines(File selectedFile) throws IOException{
 
         FileInputStream fis = new FileInputStream(selectedFile);
@@ -39,6 +40,7 @@ public class CustomFileReader {
         return arrayList;
     }
 
+    // zwraca zawartosc pliku .docx
     public String readDocxContent(File selectedFile) throws IOException{
 
         FileInputStream fis = new FileInputStream(selectedFile);
@@ -48,6 +50,7 @@ public class CustomFileReader {
         return extractor.getText();
     }
 
+    // zwraca zawartosc pliku docx jako liste linii
     public ArrayList<String> readDocxLines(File selectedFile) throws IOException{
 
         FileInputStream fis = new FileInputStream(selectedFile);
@@ -62,6 +65,7 @@ public class CustomFileReader {
         return arrayList;
     }
 
+    // zwraca zawartosc pliku .txt
     public String readTxtContent(File selectedFile) throws IOException{
 
         BufferedReader reader  = new BufferedReader(new InputStreamReader(new FileInputStream(selectedFile),"UTF-8"));
@@ -76,6 +80,7 @@ public class CustomFileReader {
         return content;
     }
 
+    // zwraca zawartosc pliku txt jako liste linii
     public ArrayList<String> readTxtLines(File selectedFile) throws IOException{
 
         BufferedReader reader  = new BufferedReader(new InputStreamReader(new FileInputStream(selectedFile),"UTF-8"));

@@ -21,6 +21,8 @@ import java.io.*;
 import java.text.DecimalFormat;
 import java.util.*;
 
+// w tej klasie odbywaja sie wszystki funkcje sterujace programem jak sortowanie,
+// wyswietlanie zawartosci katalogow i plikow oraz wyswietlania wynikow
 public class Controller {
 
     @FXML
@@ -35,6 +37,7 @@ public class Controller {
     private static ArrayList<CustomString> selectedFileLines, patternFileLines;
 
 
+    // przycisk menu dzieki ktoremu mozemy wybierac plik
     @FXML
     private void chooseFile() throws Exception {
 
@@ -56,6 +59,7 @@ public class Controller {
         }
     }
 
+    // przycisk menu dzieki ktoremu mozemy wybierac folder
     @FXML
     private void chooseDirectory() throws Exception {
 
@@ -77,6 +81,7 @@ public class Controller {
     }
 
 
+    // sortuje liste plikow wedlug wzorca pattern
     @FXML
     private void sortByFilenameMatch() throws IOException {
 
@@ -92,6 +97,8 @@ public class Controller {
         }
     }
 
+    // porownuje pliki tekstowe zdanie po zdaniu
+    // i przekazuje wynik do nowego okna
     @FXML
     private void sentenceComparison() throws IOException {
 
@@ -133,6 +140,8 @@ public class Controller {
         showResultWindow(similarSentences,allSentences,sentenceRows, similarWords, allWords, wordRows);
     }
 
+    // poronoje pliki linia po linii
+    // i wyswietla na ekrania wynik wraz z zaznaczonymi zgodnymi liniami
     @FXML
     private void lineComparison() {
         LineComparison lineComparison = new LineComparison();
@@ -141,26 +150,15 @@ public class Controller {
         listViewChosenFile.getItems().clear();
 
         for (int i = 0; i < selectedFileLines.size(); i++) {
-            Label label = new Label((i+1) + ". " + selectedFileLines.get(i).getString());
-            label.setMinWidth(listViewChosenFile.getWidth());
-            label.setMinHeight(24);
-            System.out.println(i);
             if (selectedFileLines.get(i).isEqual())
-                label.setStyle("-fx-background-color: greenyellow;");
+                listViewChosenFile.getItems().add(createLabel((i+1) + ". " + selectedFileLines.get(i).getString(), "red"));
             else
-                label.setStyle("-fx-background-color: orangered");
-
-            listViewChosenFile.getItems().add(label);
+                listViewChosenFile.getItems().add(createLabel((i+1) + ". " + selectedFileLines.get(i).getString(), "green"));
         }
 
         int linesSizeDiff = patternFileLines.size() - selectedFileLines.size();
-        System.out.println(linesSizeDiff);
         for (int i = 0; i < linesSizeDiff; i++) {
-            Label label = new Label("");
-            label.setMinWidth(listViewChosenFile.getWidth());
-            label.setMinHeight(24);
-            label.setStyle("-fx-background-color: orangered");
-            listViewChosenFile.getItems().add(label);
+            listViewChosenFile.getItems().add(createLabel("", "grey"));
             selectedFileLines.add(new CustomString(""));
         }
 
@@ -174,6 +172,27 @@ public class Controller {
         resultLabel.setText("Podobieństwo plików : " + format.format(result).toString() + "%");
     }
 
+    // tworzy etykiete
+    private Label createLabel(String text, String color) {
+        Label label = new Label(text);
+        label.setMinWidth(listViewChosenFile.getWidth());
+        label.setMinHeight(24);
+        label.setStyle(getColor(color));
+        return label;
+    }
+
+    // ustala kolor podkreslenia zgodnosci tekstu
+    private String getColor(String color) {
+        switch(color) {
+            case "red": return "-fx-background-color: rgba(0, 255, 0, 0.5);";
+            case "green": return "-fx-background-color: rgba(255, 0, 0, 0.5);";
+            case "grey": return "-fx-background-color: rgba(96, 96, 96, 0.5);";
+            default: return "-fx-background-color: rgba(96, 96, 96, 0.5);";
+        }
+    }
+
+    // otwiera nowe okno i wyswietla tam wyniki
+    // dzisla tylko w przypadku porownywania zdan nie linii
     private void showResultWindow(int similarSentences, int allSentences, ObservableList sentenceRows,
                                   int similarWords, int allWords, ObservableList wordRows) {
         try {
@@ -191,8 +210,6 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     private boolean isDirectoryChoosen() {
@@ -203,6 +220,7 @@ public class Controller {
         return selectedFile == null ? false : true;
     }
 
+    // odwieza liste plikow w wybranym folderze
     private void refreshFilesList() {
 
         listViewFilesList.getItems().clear();

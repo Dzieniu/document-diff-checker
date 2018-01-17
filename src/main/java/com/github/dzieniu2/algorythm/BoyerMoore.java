@@ -1,5 +1,7 @@
 package com.github.dzieniu2.algorythm;
 
+
+// klasa implementujaca algorytm Boyera Moore'a
 public class BoyerMoore {
 
     private final static int ASIZE = 255;
@@ -9,6 +11,8 @@ public class BoyerMoore {
 
     public BoyerMoore(){}
 
+    // przesuwamy sie tak by pierwszy znak od prawej we wzorcu spasowal z aktualnie sprawdzanym znakiem
+    // w tekscie, jezeli nie ma takiego znaku to ustawiamy koniec wzorca bezposrednio za nim
     private static void pre_bad_character_shift(String pattern)
     {
         int m = pattern.length();
@@ -24,6 +28,8 @@ public class BoyerMoore {
         }
     }
 
+    // przygotowujemy tablice w ktorej okreslimy o ile sie bedziemy mogli przesowac
+    // aby nie przeskoczyc calego wzorca w tekscie
     private static void pre_suff(String pattern)
     {
         int j;
@@ -38,6 +44,8 @@ public class BoyerMoore {
 
     }
 
+    // jezeli wzorzec zawiera kolejne wystapienie przeszukiwanego tekstu
+    // to przesuwamy sie aby pokrylo sie ono z tekstem
     private static void pre_good_suffix_shift(String pattern)
     {
         int j = 0;
@@ -69,6 +77,10 @@ public class BoyerMoore {
         }
     }
 
+    // porownojemy wzorzec z tekstem zaczynajac od ostatniej litery wzorca
+    // sprawdzajac czy jest ona identyczna z litera porownywanego tekstu
+    // jesli tak to przesowamy sie po wzorcu w lewp i porywnujemy kolejna litere
+    // jesli nie to przesowamy caly wzorzec w prawo o okreslona wartosc
     public static Integer BM_alg(String text, String pattern)
     {
         int i, j;

@@ -6,12 +6,14 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FilenameFilter;
 
+// klasa odpowiedzialna za wybieranie folderow
 public class CustomDirectoryChooser {
 
     private File selectedDirectory;
 
     public CustomDirectoryChooser(){}
 
+    // umozliwia wybrania katalogu/przemieszczanie sie po systemie folderow
     public File selectDirectory(){
 
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -22,6 +24,8 @@ public class CustomDirectoryChooser {
         return selectedDirectory;
     }
 
+    // filtruje pliki z rozszerzeniem .doc, .docx i .txt
+    // tylko takie rozszerzenia program jest w stanie obsluzyc
     public String[] getFilesList(){
 
         String[] filesList = selectedDirectory.list(new FilenameFilter() {
@@ -38,6 +42,7 @@ public class CustomDirectoryChooser {
         return filesList;
     }
 
+    // wyodrebnia rozszerzenie z nazwy pliku
     private String getFileExtension(String string){
 
         String extension = "";

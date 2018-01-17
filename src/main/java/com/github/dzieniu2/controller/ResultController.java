@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+// klasa ta odpowiada za stworzenie nowego okienka z wynikami porownywania
+// dziala tylko w przypadku porownywania zdanie po zdaniu
 public class ResultController {
 
     @FXML
@@ -38,6 +40,8 @@ public class ResultController {
         resultLabel.setText(result);
     }
 
+    // jako parametry przyjmuje dane przekazane z glownego okienka
+    // sa to wyniki porownania ktore zostana pozniej wyswietlone
     public void sentenceComparison(int similarSentences, int allSentences, ObservableList sentenceRows,
                                    int similarWords, int allWords, ObservableList wordRows) {
 
@@ -55,6 +59,7 @@ public class ResultController {
         loadSentenceView();
     }
 
+    // wyswietla podobienstwo zdan
     public void loadSentenceView(){
 
         resultTableView.getColumns().clear();
@@ -67,6 +72,7 @@ public class ResultController {
         numberOfSimilarLabel.setText("Matching sentences found:"+similarSentences);
     }
 
+    // wyswietla podobienstwo slow
     public void loadWordView(){
 
         resultTableView.getColumns().clear();
@@ -96,6 +102,7 @@ public class ResultController {
             columnWord,
             columnWordCount;
 
+    // tworzy tabele z wynikami
     public void configureView(){
 
         columnSentence = new TableColumn();

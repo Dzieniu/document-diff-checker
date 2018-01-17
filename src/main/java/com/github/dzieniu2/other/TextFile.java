@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// klasa ktora odzwierciedla zaladowany plik tekstowy
 public class TextFile {
 
     private String filename,filepath;
@@ -22,6 +23,7 @@ public class TextFile {
         this.filepath = filepath;
     }
 
+    // sortowanie plikow po nazwach z wykorzystaniem algorytmu Boyera Moore'a
     public double getNameMatch(File patternFile){
 
         CustomString patternName = new CustomString(patternFile.getName().substring(0, patternFile.getName().lastIndexOf('.')).toLowerCase());

@@ -5,8 +5,12 @@ import com.github.dzieniu2.algorythm.KnuthMorrisPratt;
 import java.util.ArrayList;
 import java.util.List;
 
+// klasa wykorzystuje algorytm Knutha Morrisa Pratta aby stwierdzic czy podane ciagi znakow sa identyczne
 public class LineComparison {
 
+    // metoda przyjmuje jako parametr 2 listy z liniami, jedna jest wzorcem, druga jest plikiem ktory porownujemy
+    // w petli sa porownywane wszystkie linie z 2 list, porownywanie jest wykonane na podstawie algorytmy KMP
+    // jesli porownywanie alogrytmem KMP zwroci null oznacza to ze linie nie sa identyczne i oznaczamy je jako false
     public void compare(List<CustomString> patternLines, List<CustomString> selectedLines) {
         
         boolean isEqual;
@@ -17,7 +21,7 @@ public class LineComparison {
                 if (i < selectedLines.size())
                     newLines.add(selectedLines.get(i));
                 else
-                    newLines.add(new CustomString("hyhyhy"));
+                    newLines.add(new CustomString(""));
             }
             selectedLines = newLines;
 
@@ -37,7 +41,8 @@ public class LineComparison {
             }
         }
     }
-    
+
+    // sprawdza ktory ciag jest dluzszy
     private boolean isLonger(CustomString str1, CustomString str2) {
         return str1.getString().length() > str2.getString().length() ? true : false;
     }
